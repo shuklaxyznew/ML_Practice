@@ -1,0 +1,39 @@
+# Student Score Prediction System
+# Requirements
+# ============
+# Pinned for reproducibility. Tested on Python 3.10+
+
+# Core ML
+tensorflow>=2.13.0,<3.0
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+
+# Explainability
+shap>=0.43.0
+
+# GenAI
+anthropic>=0.25.0
+
+# Serving
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+pydantic>=2.0.0
+
+# Experiment Tracking
+mlflow>=2.11.0
+
+# Visualization (notebooks)
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.18.0
+
+# Dev / Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+jupyter>=1.0.0
+ipykernel>=6.25.0
+
+# Utilities
+python-dotenv>=1.0.0
+tqdm>=4.66.0
