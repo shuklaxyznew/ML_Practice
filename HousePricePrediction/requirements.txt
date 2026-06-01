@@ -1,0 +1,36 @@
+# ============================================================
+# House Price Prediction — Python Dependencies
+# ============================================================
+# Install all dependencies with:
+#   pip install -r requirements.txt
+#
+# Tested with Python 3.8, 3.9, 3.10, 3.11
+# ============================================================
+
+# Deep Learning Framework
+# Used for: building, training, saving the neural network
+tensorflow>=2.12.0
+
+# Machine Learning Utilities
+# Used for: dataset loading, train/test split, StandardScaler, r2_score
+scikit-learn>=1.2.0
+
+# Data Manipulation
+# Used for: DataFrame operations, statistics, feature engineering
+pandas>=1.5.0
+
+# Numerical Computing
+# Used for: array operations, log1p transformation, reshape
+numpy>=1.23.0
+
+# Plotting & Visualization
+# Used for: all 6 plots — histograms, scatter, training curves
+matplotlib>=3.6.0
+
+# Statistical Visualization
+# Used for: correlation heatmap with annotations
+seaborn>=0.12.0
+
+# Model Serialization
+# Used for: saving and loading the StandardScaler (scaler.pkl)
+joblib>=1.2.0
