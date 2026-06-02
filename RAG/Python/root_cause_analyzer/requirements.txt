@@ -1,0 +1,26 @@
+# Core
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+python-dotenv==1.0.1
+
+# LLM Orchestration
+langchain==0.3.13
+langchain-core==0.3.28
+langchain-anthropic==0.3.3    # Claude (default)
+langchain-openai==0.2.14      # GPT-4o (alternative)
+
+# RAG / Vector DB
+chromadb==0.5.23
+sentence-transformers==3.3.1  # Local embeddings (all-MiniLM-L6-v2)
+
+# Optional: OpenSearch/Elasticsearch log indexing
+# elasticsearch==8.16.0
+
+# Optional: Prometheus metrics
+# prometheus-fastapi-instrumentator==7.0.0
+
+# Dev / Testing
+pytest==8.3.4
+pytest-asyncio==0.24.0
+httpx==0.27.2                  # async test client for FastAPI

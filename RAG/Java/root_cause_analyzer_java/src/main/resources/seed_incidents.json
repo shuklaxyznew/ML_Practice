@@ -1,0 +1,38 @@
+[
+  {
+    "title": "DB connection pool exhaustion — 2025-11-03",
+    "description": "HikariPool max connections reached. API returned 503. Long-running queries blocked connections.",
+    "resolution": "Increased pool size to 50, added 10s query timeout, killed blocking queries.",
+    "keywords": ["hikari","connection","pool","jdbc","database","503","timeout","datasource"]
+  },
+  {
+    "title": "OOM crash — worker nodes — 2025-09-14",
+    "description": "Worker pods killed with OOMKilled. Heap usage climbed to 100% during bulk ETL job.",
+    "resolution": "Increased JVM -Xmx to 4G, paginated ETL job, set K8s memory limit to 5Gi.",
+    "keywords": ["oom","outofmemory","heap","gc","memory","killed","oomed","java","jvm"]
+  },
+  {
+    "title": "Payment service timeout cascade — 2025-08-22",
+    "description": "Downstream payment provider elevated latency. Circuit breaker opened. Checkout success rate dropped.",
+    "resolution": "Enabled fallback payment processor, tuned circuit breaker thresholds, added retry with jitter.",
+    "keywords": ["timeout","circuit","breaker","payment","latency","cascade","retry","checkout","slo"]
+  },
+  {
+    "title": "K8s CrashLoopBackOff — missing env var — 2025-07-10",
+    "description": "Deployment without required DATABASE_URL env var. All pods exited code 1 on startup.",
+    "resolution": "Added env var to K8s secret, re-deployed. Added startup validation to catch missing config.",
+    "keywords": ["crashloop","crash","env","environment","variable","startup","exit","kubernetes","pod"]
+  },
+  {
+    "title": "Redis cache eviction storm — 2025-06-05",
+    "description": "Redis maxmemory reached. allkeys-lru eviction kicked in. Cache hit rate dropped from 95% to 12%, DB overloaded.",
+    "resolution": "Increased Redis memory to 8GB, switched to volatile-lru policy, added cache warming on startup.",
+    "keywords": ["redis","cache","eviction","memory","hit","rate","lru","maxmemory"]
+  },
+  {
+    "title": "Elasticsearch disk I/O saturation — 2025-05-18",
+    "description": "ES nodes hit disk I/O saturation during large index operation. Search latency spiked 10x.",
+    "resolution": "Throttled bulk indexing, increased refresh_interval to 30s, migrated to SSD-backed nodes.",
+    "keywords": ["elasticsearch","disk","io","index","latency","saturation","search","bulk"]
+  }
+]
