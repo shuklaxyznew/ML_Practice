@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Environments
+venv/
+env/
+.venv/
+
+# NEVER commit secrets
+.env
+
+# ML artifacts (too large — regenerate or use DVC/MLflow remote)
+checkpoints/
+artifacts/
+logs/
+
+# MLflow local storage
+experiments/mlruns/
+
+# Raw generated data (reproducible via generator.py)
+data/raw/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Coverage
+htmlcov/
+.coverage
