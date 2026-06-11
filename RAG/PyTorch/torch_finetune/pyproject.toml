@@ -1,0 +1,31 @@
+[build-system]
+requires      = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name        = "torch-finetune"
+version     = "0.1.0"
+description = "PEFT, LoRA, and QLoRA fine-tuning examples using PyTorch and HuggingFace"
+readme      = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "torch>=2.0.0",
+    "transformers>=4.35.0",
+    "peft>=0.6.0",
+    "datasets>=2.14.0",
+    "accelerate>=0.24.0",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+qlora = [
+    "bitsandbytes>=0.41.0",
+]
+dev = [
+    "pytest>=7.0.0",
+]
+
+[tool.setuptools.packages.find]
+where   = ["."]
+include = ["torch_finetune*"]
