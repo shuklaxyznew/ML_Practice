@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Incident Resolution Agent — Summary Card</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; padding: 28px; }
+
+  h1 { font-size: 20px; font-weight: 700; color: #f8fafc; }
+  .tagline { font-size: 12px; color: #64748b; margin-top: 4px; margin-bottom: 24px; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .grid-wide { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .grid-full { margin-top: 14px; }
+
+  .card { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 16px; }
+  .card-title { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+
+  .purple { color: #a78bfa; border-color: #4c3d8a; }
+  .teal   { color: #34d399; border-color: #1a6b55; }
+  .coral  { color: #fb923c; border-color: #8b3a1e; }
+  .blue   { color: #60a5fa; border-color: #1e4a80; }
+  .amber  { color: #fbbf24; border-color: #7a4e0a; }
+  .green  { color: #4ade80; border-color: #1a6030; }
+  .gray   { color: #9ca3af; border-color: #374151; }
+
+  .bg-purple { background: #1a1730; }
+  .bg-teal   { background: #0d2420; }
+  .bg-coral  { background: #2a1410; }
+  .bg-blue   { background: #0d1e30; }
+  .bg-amber  { background: #241a08; }
+  .bg-green  { background: #0d2010; }
+  .bg-gray   { background: #1a1f2e; }
+
+  .row { display: flex; flex-direction: column; gap: 5px; }
+  .item { font-size: 12px; color: #cbd5e1; line-height: 1.5; }
+  .item strong { color: #f1f5f9; font-weight: 600; }
+  .item code { font-family: 'Courier New', monospace; font-size: 11px; background: #0f1117; padding: 1px 5px; border-radius: 3px; color: #93c5fd; }
+
+  .badge-wrap { display: flex; flex-wrap: wrap; gap: 5px; }
+  .badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .b-purple { background: #2d2460; color: #c4b5fd; }
+  .b-teal   { background: #0a3028; color: #6ee7b7; }
+  .b-blue   { background: #0c2844; color: #93c5fd; }
+  .b-amber  { background: #2d1f06; color: #fcd34d; }
+  .b-green  { background: #0a2810; color: #86efac; }
+  .b-coral  { background: #2a1208; color: #fdba74; }
+  .b-gray   { background: #1f2937; color: #9ca3af; }
+
+  .qa { margin-bottom: 10px; }
+  .q { font-size: 11px; font-weight: 600; color: #94a3b8; margin-bottom: 3px; }
+  .a { font-size: 12px; color: #cbd5e1; line-height: 1.6; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .stat { text-align: center; padding: 10px; background: #0f1117; border-radius: 8px; border: 1px solid #1f2937; }
+  .stat-num { font-size: 22px; font-weight: 700; color: #a78bfa; }
+  .stat-label { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+  .divider { height: 1px; background: #1f2937; margin: 14px 0; }
+  .footer { margin-top: 20px; font-size: 10px; color: #374151; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>Enterprise Incident Resolution Agent</h1>
+<p class="tagline">Multi-Agent AI Platform · LangGraph · CrewAI · LangChain · ChromaDB · Ollama · FastAPI · FastMCP · Python 3.12</p>
+
+<!-- Stats row -->
+<div class="stat-row" style="margin-bottom:14px;">
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Specialized Agents</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">Custom Tools</div></div>
+  <div class="stat"><div class="stat-num">33/33</div><div class="stat-label">Tests Passing</div></div>
+  <div class="stat"><div class="stat-num">9</div><div class="stat-label">Build Phases</div></div>
+</div>
+
+<!-- Row 1: Agents, Tools, Stack -->
+<div class="grid">
+
+  <div class="card bg-teal" style="border-color:#1a6b55;">
+    <div class="card-title teal">3 Agents</div>
+    <div class="row">
+      <div class="item"><strong>Coordinator</strong> — <code>qwen2.5:3b</code><br>Plans investigation, finds past incidents, delegates tasks</div>
+      <div class="divider"></div>
+      <div class="item"><strong>Knowledge</strong> — <code>qwen2.5:3b</code><br>Searches runbooks, parses logs, finds similar incidents</div>
+      <div class="divider"></div>
+      <div class="item"><strong>Resolution</strong> — <code>gemma3:4b</code><br>Root cause analysis, recommendations, confidence scoring</div>
+    </div>
+  </div>
+
+  <div class="card bg-blue" style="border-color:#1e4a80;">
+    <div class="card-title blue">5 Custom Tools</div>
+    <div class="row">
+      <div class="item"><code>web_search_tool()</code><br>DuckDuckGo + rate limit guard + circuit breaker</div>
+      <div class="item"><code>knowledge_retrieval_tool()</code><br>ChromaDB semantic search via BGE-Small</div>
+      <div class="item"><code>incident_lookup_tool()</code><br>Past incident lookup by ID</div>
+      <div class="item"><code>find_similar_incidents_tool()</code><br>Keyword + service similarity matching</div>
+      <div class="item"><code>log_parser_tool()</code><br>Regex — errors, warnings, timestamps, patterns</div>
+    </div>
+  </div>
+
+  <div class="card bg-gray" style="border-color:#374151;">
+    <div class="card-title gray">Tech Stack</div>
+    <div class="badge-wrap">
+      <span class="badge b-purple">LangGraph</span>
+      <span class="badge b-teal">CrewAI</span>
+      <span class="badge b-blue">LangChain</span>
+      <span class="badge b-green">Ollama</span>
+      <span class="badge b-amber">ChromaDB</span>
+      <span class="badge b-coral">FastAPI</span>
+      <span class="badge b-blue">FastMCP</span>
+      <span class="badge b-gray">SQLite</span>
+      <span class="badge b-teal">BGE-Small</span>
+      <span class="badge b-purple">Pydantic</span>
+      <span class="badge b-gray">pytest</span>
+      <span class="badge b-green">Rich</span>
+      <span class="badge b-amber">DuckDuckGo</span>
+      <span class="badge b-blue">uvicorn</span>
+      <span class="badge b-gray">Python 3.12</span>
+    </div>
+    <div class="divider"></div>
+    <div class="card-title gray" style="margin-bottom:6px;">6 MCP Tools</div>
+    <div class="badge-wrap">
+      <span class="badge b-teal">search_knowledge_base</span>
+      <span class="badge b-teal">get_incident_details</span>
+      <span class="badge b-teal">analyze_logs</span>
+      <span class="badge b-teal">check_service_health</span>
+      <span class="badge b-teal">list_recent_incidents</span>
+      <span class="badge b-teal">get_platform_stats</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Row 2: Workflow + Interview Q&A -->
+<div class="grid-wide">
+
+  <div class="card bg-purple" style="border-color:#4c3d8a;">
+    <div class="card-title purple">LangGraph Workflow — 6 Nodes</div>
+    <div class="row">
+      <div class="item"><strong>1. intake_node</strong> — validates input, sets <code>needs_more_info=True</code></div>
+      <div class="item"><strong>2. coordinator_node</strong> — ReAct loop, plans, writes to <code>AgentState</code></div>
+      <div class="item"><strong>3. knowledge_node</strong> — 4-tool ReAct loop, builds context summary</div>
+      <div class="item"><strong>4. resolution_node</strong> — Gemma 3 4B, structured RCA output</div>
+      <div class="item"><strong>5. reflection_node</strong> — scores 0.0–1.0, routes retry or output</div>
+      <div class="item"><strong>6. output_node</strong> — assembles final report, marks complete</div>
+    </div>
+    <div class="divider"></div>
+    <div class="card-title purple" style="margin-bottom:6px;">Key Patterns</div>
+    <div class="badge-wrap">
+      <span class="badge b-purple">TypedDict AgentState</span>
+      <span class="badge b-purple">conditional edges</span>
+      <span class="badge b-purple">reflection + retry loop</span>
+      <span class="badge b-purple">handle_parsing_errors</span>
+      <span class="badge b-purple">confidence threshold</span>
+      <span class="badge b-purple">max iterations guard</span>
+    </div>
+  </div>
+
+  <div class="card bg-gray" style="border-color:#374151;">
+    <div class="card-title gray">Interview Q&A — Know These Cold</div>
+
+    <div class="qa">
+      <div class="q">Q: Why LangGraph AND CrewAI?</div>
+      <div class="a">LangGraph = workflow engine (when, state, routing). CrewAI = collaboration engine (who, role, task). They solve different layers. LangGraph outer, CrewAI inner.</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">Q: How do agents share information?</div>
+      <div class="a">Through AgentState TypedDict — shared whiteboard. Agents never call each other. Everything goes through state. In production: Redis for distributed execution.</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">Q: What happens when an agent hallucinates a tool?</div>
+      <div class="a"><code>handle_parsing_errors=True</code> catches it, feeds error back as Observation. Agent self-corrects. Non-negotiable in production.</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">Q: How do you test non-deterministic AI?</div>
+      <div class="a">Unit test tools as pure functions (no LLM). Integration test routing logic. E2E test structure not content — assert shape and presence, not exact words.</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">Q: How would you scale to 500 concurrent incidents?</div>
+      <div class="a">Replace BackgroundTasks → Celery + Redis queue. Replace in-memory jobs → Redis. Multiple uvicorn workers. Connection pooling for ChromaDB. Cache similar incident results.</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">Q: Why Qwen 3B for coordinator, Gemma 4B for resolution?</div>
+      <div class="a">Coordinator needs fast JSON planning — speed over depth. Resolution needs deep reasoning for RCA. Right model for right cognitive load. Smaller specialized = faster + cheaper.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Row 3: ADRs + Production -->
+<div class="grid-wide">
+
+  <div class="card bg-amber" style="border-color:#7a4e0a;">
+    <div class="card-title amber">Architecture Decision Records</div>
+    <div class="row">
+      <div class="item"><strong>ADR-1:</strong> LangGraph over pure LangChain — cycles needed for reflection retry loop. LangChain is DAG-only.</div>
+      <div class="item"><strong>ADR-2:</strong> CrewAI + LangGraph together — LangGraph owns workflow state, CrewAI owns agent personas and task delegation.</div>
+      <div class="item"><strong>ADR-3:</strong> Qwen 3B for fast planning, Gemma 4B for deep reasoning — cognitive load drives model selection.</div>
+      <div class="item"><strong>ADR-4:</strong> ChromaDB over FAISS — persistent by default, metadata filtering, hybrid search, Python-native API.</div>
+      <div class="item"><strong>ADR-5:</strong> BGE-Small over larger embeddings — CPU-optimized, near-large performance, 90MB RAM, fast inference.</div>
+    </div>
+  </div>
+
+  <div class="card bg-coral" style="border-color:#8b3a1e;">
+    <div class="card-title coral">Production Features Built</div>
+    <div class="row">
+      <div class="item"><strong>FastAPI webhook</strong> — POST /incidents triggers async investigation, returns job ID immediately</div>
+      <div class="item"><strong>Background processing</strong> — BackgroundTasks, queued → running → complete status</div>
+      <div class="item"><strong>Circuit breaker</strong> — stops calling failing external services after N failures</div>
+      <div class="item"><strong>Input validation</strong> — Pydantic validators with prompt injection detection</div>
+      <div class="item"><strong>Structured logging</strong> — Rich terminal + JSON JSONL file for log aggregators</div>
+      <div class="item"><strong>Cost tracking</strong> — tokens, latency, tool calls per investigation saved to JSONL</div>
+      <div class="item"><strong>Evaluation pipeline</strong> — 5-dimension automated scoring with POOR/ACCEPTABLE/GOOD/EXCELLENT grade</div>
+      <div class="item"><strong>Baseline benchmarks</strong> — regression detection when models or prompts change</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- STAR Stories -->
+<div class="card bg-gray grid-full" style="border-color:#374151; margin-top:14px;">
+  <div class="card-title gray">STAR Stories — Use These in Behavioral Interviews</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+    <div>
+      <div class="item" style="color:#a78bfa; font-weight:600; margin-bottom:4px;">Story 1 — Complex Project</div>
+      <div class="item"><strong>S:</strong> Build enterprise AI beyond chatbots — autonomous reasoning with structured outputs</div>
+      <div class="item"><strong>T:</strong> Multi-agent platform on local CPU, production-grade, fully explainable</div>
+      <div class="item"><strong>A:</strong> LangGraph + CrewAI + 5 tools + ChromaDB + FastAPI + MCP + evaluation pipeline</div>
+      <div class="item"><strong>R:</strong> Working platform, RCA in 5 min, 33/33 tests, CPU-only hardware</div>
+    </div>
+    <div>
+      <div class="item" style="color:#34d399; font-weight:600; margin-bottom:4px;">Story 2 — Hard Bug</div>
+      <div class="item"><strong>S:</strong> Resolution agent wrote Final Answer then tried another Action — parser crashed</div>
+      <div class="item"><strong>T:</strong> Fix without breaking reasoning capability or making system brittle</div>
+      <div class="item"><strong>A:</strong> handle_parsing_errors + early_stopping_method + tighter prompt rules</div>
+      <div class="item"><strong>R:</strong> Zero parsing failures. Learned 3-layer LLM output reliability strategy</div>
+    </div>
+    <div>
+      <div class="item" style="color:#fb923c; font-weight:600; margin-bottom:4px;">Story 3 — Architecture Decision</div>
+      <div class="item"><strong>S:</strong> LangGraph vs CrewAI — which to use as primary orchestrator?</div>
+      <div class="item"><strong>T:</strong> Make documented decision with trade-offs, not arbitrary pick</div>
+      <div class="item"><strong>A:</strong> Analyzed 4 dimensions — workflow control, collaboration, state, maturity. Used both.</div>
+      <div class="item"><strong>R:</strong> Clean separation of concerns. Documented as ADR-2. Defensible in any interview.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Enterprise Incident Resolution Agent · Shailesh · 2025 · LangGraph + CrewAI + LangChain + Ollama · CPU-only · Open Source · MIT
+</div>
+
+</body>
+</html>

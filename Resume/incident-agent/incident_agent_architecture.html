@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Incident Resolution Agent — Architecture</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; padding: 32px; min-height: 100vh; }
+  h1 { font-size: 22px; font-weight: 600; color: #f8fafc; margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: #94a3b8; margin-bottom: 32px; }
+  .diagram { display: flex; flex-direction: column; gap: 12px; max-width: 1000px; }
+
+  .tier { border-radius: 12px; padding: 16px 20px; border: 1px solid; }
+  .tier-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .tier-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .tier-sub { font-size: 12px; opacity: 0.7; }
+
+  .tier-gray   { background: #1e2028; border-color: #374151; }
+  .tier-purple { background: #1a1730; border-color: #4c3d8a; }
+  .tier-teal   { background: #0d2420; border-color: #1a6b55; }
+  .tier-coral  { background: #2a1410; border-color: #8b3a1e; }
+  .tier-blue   { background: #0d1e30; border-color: #1e4a80; }
+  .tier-amber  { background: #241a08; border-color: #7a4e0a; }
+  .tier-green  { background: #0d2010; border-color: #1a6030; }
+
+  .label-gray   { color: #9ca3af; }
+  .label-purple { color: #a78bfa; }
+  .label-teal   { color: #34d399; }
+  .label-coral  { color: #fb923c; }
+  .label-blue   { color: #60a5fa; }
+  .label-amber  { color: #fbbf24; }
+  .label-green  { color: #4ade80; }
+
+  .agents-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .agent-card { border-radius: 10px; padding: 14px 16px; border: 1px solid; }
+  .agent-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .agent-model { font-size: 11px; opacity: 0.6; margin-bottom: 8px; font-family: monospace; }
+  .agent-tools { display: flex; flex-direction: column; gap: 4px; }
+  .tool-pill { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-family: monospace; display: inline-block; width: fit-content; }
+
+  .tools-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .tool-card { border-radius: 8px; padding: 12px 14px; border: 1px solid #1e4a80; background: #0d1e30; }
+  .tool-fn { font-size: 11px; font-family: monospace; color: #60a5fa; font-weight: 600; margin-bottom: 4px; }
+  .tool-desc { font-size: 11px; color: #94a3b8; line-height: 1.5; }
+
+  .memory-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+  .mem-card { border-radius: 8px; padding: 12px 14px; border: 1px solid #7a4e0a; background: #241a08; }
+  .mem-name { font-size: 12px; font-weight: 600; color: #fbbf24; margin-bottom: 4px; }
+  .mem-desc { font-size: 11px; color: #94a3b8; line-height: 1.5; }
+
+  .flow-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; align-items: center; }
+  .flow-node { border-radius: 8px; padding: 10px 12px; border: 1px solid #4c3d8a; background: #1a1730; text-align: center; }
+  .flow-node-name { font-size: 11px; font-weight: 600; color: #a78bfa; }
+  .flow-node-sub  { font-size: 10px; color: #6b7280; margin-top: 2px; }
+  .flow-arrow { text-align: center; font-size: 16px; color: #4c3d8a; }
+
+  .api-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .api-pill { border-radius: 8px; padding: 10px 12px; border: 1px solid #1a6b55; background: #0d2420; text-align: center; }
+  .api-method { font-size: 10px; font-weight: 700; font-family: monospace; }
+  .api-path   { font-size: 11px; color: #34d399; font-family: monospace; margin-top: 2px; }
+  .api-desc   { font-size: 10px; color: #6b7280; margin-top: 4px; }
+
+  .get    { color: #4ade80; }
+  .post   { color: #60a5fa; }
+  .delete { color: #f87171; }
+
+  .arrow-down { text-align: center; font-size: 18px; color: #374151; padding: 2px 0; }
+  .section-gap { height: 4px; }
+
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .badge-purple { background: #2d2460; color: #c4b5fd; }
+  .badge-teal   { background: #0a3028; color: #6ee7b7; }
+  .badge-blue   { background: #0c2844; color: #93c5fd; }
+  .badge-amber  { background: #2d1f06; color: #fcd34d; }
+  .badge-green  { background: #0a2810; color: #86efac; }
+  .badge-coral  { background: #2a1208; color: #fdba74; }
+  .badge-gray   { background: #1f2937; color: #9ca3af; }
+
+  .footer { margin-top: 24px; font-size: 11px; color: #4b5563; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>Enterprise Incident Resolution Agent</h1>
+<p class="subtitle">Multi-Agent AI Platform · LangGraph · CrewAI · LangChain · ChromaDB · Ollama · FastAPI · FastMCP</p>
+
+<div class="diagram">
+
+  <!-- TIER 1: Interface -->
+  <div class="tier tier-gray">
+    <div class="tier-label label-gray">Tier 1 · Interface</div>
+    <div class="tier-title">Incident Input Layer</div>
+    <div class="tier-sub">CLI (main.py) · REST API (FastAPI webhook) · Swagger UI (/docs)</div>
+    <div class="badge-row">
+      <span class="badge badge-gray">POST /incidents</span>
+      <span class="badge badge-gray">GET /incidents/{job_id}</span>
+      <span class="badge badge-gray">GET /health</span>
+      <span class="badge badge-gray">BackgroundTasks async</span>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- TIER 2: Orchestration -->
+  <div class="tier tier-purple">
+    <div class="tier-label label-purple">Tier 2 · Orchestration · LangGraph StateGraph</div>
+    <div class="flow-row">
+      <div class="flow-node">
+        <div class="flow-node-name">intake_node</div>
+        <div class="flow-node-sub">validate + init</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-name">coordinator_node</div>
+        <div class="flow-node-sub">plan + delegate</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-name">knowledge_node</div>
+        <div class="flow-node-sub">research + gather</div>
+      </div>
+      <div class="flow-arrow">→</div>
+    </div>
+    <div style="height:8px"></div>
+    <div class="flow-row">
+      <div class="flow-node" style="grid-column:1">
+        <div class="flow-node-name">output_node</div>
+        <div class="flow-node-sub">final report</div>
+      </div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-node">
+        <div class="flow-node-name">reflection_node</div>
+        <div class="flow-node-sub">score + retry</div>
+      </div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-node">
+        <div class="flow-node-name">resolution_node</div>
+        <div class="flow-node-sub">RCA + recommend</div>
+      </div>
+      <div class="flow-arrow">←</div>
+    </div>
+    <div class="badge-row" style="margin-top:12px">
+      <span class="badge badge-purple">AgentState TypedDict</span>
+      <span class="badge badge-purple">conditional routing</span>
+      <span class="badge badge-purple">confidence threshold</span>
+      <span class="badge badge-purple">max iterations guard</span>
+      <span class="badge badge-purple">CrewAI crew collaboration</span>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- TIER 3: Agents -->
+  <div class="tier tier-teal">
+    <div class="tier-label label-teal">Tier 3 · Agents</div>
+    <div class="agents-row">
+      <div class="agent-card" style="border-color:#1a6b55; background:#0d2420;">
+        <div class="agent-name" style="color:#34d399;">Coordinator Agent</div>
+        <div class="agent-model">qwen2.5:3b · ReAct loop</div>
+        <div class="agent-tools">
+          <span class="tool-pill" style="background:#0a3028; color:#6ee7b7;">web_search</span>
+          <span class="tool-pill" style="background:#0a3028; color:#6ee7b7;">incident_lookup</span>
+        </div>
+      </div>
+      <div class="agent-card" style="border-color:#1a6b55; background:#0d2420;">
+        <div class="agent-name" style="color:#34d399;">Knowledge Agent</div>
+        <div class="agent-model">qwen2.5:3b · ReAct loop</div>
+        <div class="agent-tools">
+          <span class="tool-pill" style="background:#0a3028; color:#6ee7b7;">knowledge_retrieval</span>
+          <span class="tool-pill" style="background:#0a3028; color:#6ee7b7;">find_similar_incidents</span>
+          <span class="tool-pill" style="background:#0a3028; color:#6ee7b7;">parse_logs</span>
+          <span class="tool-pill" style="background:#0a3028; color:#6ee7b7;">web_search</span>
+        </div>
+      </div>
+      <div class="agent-card" style="border-color:#8b3a1e; background:#2a1410;">
+        <div class="agent-name" style="color:#fb923c;">Resolution Agent</div>
+        <div class="agent-model">gemma3:4b · deep reasoning</div>
+        <div class="agent-tools">
+          <span class="tool-pill" style="background:#1a0c08; color:#fdba74;">knowledge_retrieval</span>
+          <span class="tool-pill" style="background:#1a0c08; color:#fdba74;">find_similar_incidents</span>
+          <span class="tool-pill" style="background:#1a0c08; color:#fdba74;">parse_logs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- TIER 4: Tools -->
+  <div class="tier tier-blue">
+    <div class="tier-label label-blue">Tier 4 · Tool Layer · LangChain @tool decorator</div>
+    <div class="tools-row">
+      <div class="tool-card">
+        <div class="tool-fn">web_search_tool()</div>
+        <div class="tool-desc">DuckDuckGo search with rate limit guard + circuit breaker</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-fn">knowledge_retrieval_tool()</div>
+        <div class="tool-desc">ChromaDB semantic search via BGE-Small embeddings</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-fn">incident_lookup_tool()</div>
+        <div class="tool-desc">Past incident lookup by ID from incident store</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-fn">find_similar_incidents_tool()</div>
+        <div class="tool-desc">Keyword + service matching against historical incidents</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-fn">log_parser_tool()</div>
+        <div class="tool-desc">Regex log analysis — errors, warnings, timestamps, patterns</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- TIER 5: Memory -->
+  <div class="tier tier-amber">
+    <div class="tier-label label-amber">Tier 5 · Memory Layer</div>
+    <div class="memory-row">
+      <div class="mem-card">
+        <div class="mem-name">Session Memory</div>
+        <div class="mem-desc">In-process messages + tool call history. Cleared after each run.</div>
+      </div>
+      <div class="mem-card">
+        <div class="mem-name">Vector Store</div>
+        <div class="mem-desc">ChromaDB + BGE-Small. 5 runbooks. cosine similarity search.</div>
+      </div>
+      <div class="mem-card">
+        <div class="mem-name">Historical Memory</div>
+        <div class="mem-desc">SQLite persistence. Completed incident reports across sessions.</div>
+      </div>
+      <div class="mem-card">
+        <div class="mem-name">AgentState</div>
+        <div class="mem-desc">TypedDict shared whiteboard. All agents read + write here.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- TIER 6: LLM Runtime -->
+  <div class="tier tier-green">
+    <div class="tier-label label-green">Tier 6 · LLM Runtime · Ollama (local CPU)</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+      <div style="padding:12px; border-radius:8px; border:1px solid #1a6030; background:#0a2810;">
+        <div style="font-size:13px; font-weight:600; color:#4ade80; margin-bottom:4px;">Qwen 2.5 3B</div>
+        <div style="font-size:11px; color:#6b7280;">Coordinator + Knowledge agents · ~2GB RAM · 8-15 tok/s</div>
+      </div>
+      <div style="padding:12px; border-radius:8px; border:1px solid #1a6030; background:#0a2810;">
+        <div style="font-size:13px; font-weight:600; color:#4ade80; margin-bottom:4px;">Gemma 3 4B</div>
+        <div style="font-size:11px; color:#6b7280;">Resolution agent · ~3GB RAM · 6-10 tok/s · deeper reasoning</div>
+      </div>
+      <div style="padding:12px; border-radius:8px; border:1px solid #1a6030; background:#0a2810;">
+        <div style="font-size:13px; font-weight:600; color:#4ade80; margin-bottom:4px;">BGE-Small-EN-v1.5</div>
+        <div style="font-size:11px; color:#6b7280;">Embeddings · ~90MB · CPU-optimized · 384-dim vectors</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- TIER 7: MCP + API -->
+  <div class="tier tier-teal">
+    <div class="tier-label label-teal">Tier 7 · Enterprise Integration</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div>
+        <div style="font-size:12px; font-weight:600; color:#34d399; margin-bottom:8px;">FastAPI REST Layer</div>
+        <div class="api-row" style="grid-template-columns:1fr 1fr;">
+          <div class="api-pill"><span class="post api-method">POST</span><div class="api-path">/incidents</div><div class="api-desc">submit incident</div></div>
+          <div class="api-pill"><span class="get api-method">GET</span><div class="api-path">/incidents/{id}</div><div class="api-desc">poll results</div></div>
+          <div class="api-pill"><span class="get api-method">GET</span><div class="api-path">/incidents</div><div class="api-desc">list all jobs</div></div>
+          <div class="api-pill"><span class="get api-method">GET</span><div class="api-path">/health</div><div class="api-desc">liveness probe</div></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px; font-weight:600; color:#34d399; margin-bottom:8px;">FastMCP Server — 6 Tools</div>
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <span class="badge badge-teal">search_knowledge_base</span>
+          <span class="badge badge-teal">get_incident_details</span>
+          <span class="badge badge-teal">analyze_logs</span>
+          <span class="badge badge-teal">check_service_health</span>
+          <span class="badge badge-teal">list_recent_incidents</span>
+          <span class="badge badge-teal">get_platform_stats</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Observability bar -->
+  <div class="tier tier-gray" style="padding:12px 20px;">
+    <div class="tier-label label-gray">Cross-cutting · MLOps + Observability</div>
+    <div class="badge-row">
+      <span class="badge badge-gray">Rich structured logging</span>
+      <span class="badge badge-gray">JSON log files (JSONL)</span>
+      <span class="badge badge-gray">CostTracker (tokens + latency)</span>
+      <span class="badge badge-gray">AgentEvaluator (5-dimension scoring)</span>
+      <span class="badge badge-gray">CircuitBreaker (external tools)</span>
+      <span class="badge badge-gray">with_retry decorator</span>
+      <span class="badge badge-gray">WorkflowErrorHandler</span>
+      <span class="badge badge-gray">Baseline benchmarks</span>
+      <span class="badge badge-gray">33/33 tests</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Enterprise Incident Resolution Agent · Built with LangGraph + CrewAI + LangChain + Ollama · Runs on CPU · Open Source
+</div>
+
+</body>
+</html>
